@@ -17,4 +17,4 @@ $(div).on('test', function(event) {
 */
 
 //fire custom event
-div.trigger('test', 'custum value');
+div.trigger('test', 'custom value'); //event.detail
