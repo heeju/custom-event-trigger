@@ -8,7 +8,8 @@
       evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
       return evt;
     }
-    exports.CustomEvent.prototype = exports.Event.prototype;
+
+    CustomEvent.prototype = exports.Event.prototype;
     exports.CustomEvent = CustomEvent;
   }
 
@@ -16,7 +17,7 @@
 
   function fireEvent(event, datas) {
     if (!event || typeof event != 'string') {
-      return;
+      return false;
     }
 
     var params = {
