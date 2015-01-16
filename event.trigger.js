@@ -1,23 +1,20 @@
-  /* ************************
-   * add trigger event
-   ************************ */
+(function(exports) {
   try {
     new CustomEvent('');
   } catch (e) {
-    console.log('no CustomEvent');
-    window.CustomEvent = function(event, params) {
+    var CustomEvent = function(event, params) {
       params = params || { bubbles: false, cancelable: false, detail: null };
       var evt = document.createEvent('CustomEvent');
       evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
       return evt;
     }
-    window.CustomEvent.prototype = window.Event.prototype;
-    //window.CustomEvent = CustomEvent;
+    exports.CustomEvent.prototype = exports.Event.prototype;
+    exports.CustomEvent = CustomEvent;
   }
 
-  window.CustomEvent.list = {};
+  exports.CustomEvent.list = {};
 
-  window.HTMLElement.prototype.trigger = function(event, datas) {
+  function fireEvent(event, datas) {
     if (!event || typeof event != 'string') {
       return;
     }
@@ -28,9 +25,12 @@
       detail: datas !== undefined ? datas : null
     };
 
-    if (!window.CustomEvent.list[event] || window.CustomEvent.list[event].detail !== params.detail) {
-      window.CustomEvent.list[event] = new CustomEvent(event, params);
+    if (!exports.CustomEvent.list[event] || exports.CustomEvent.list[event].detail !== params.detail) {
+      exports.CustomEvent.list[event] = new CustomEvent(event, params);
     }
 
-    return this.dispatchEvent(window.CustomEvent.list[event]);
+    return this.dispatchEvent(exports.CustomEvent.list[event]);
   };
+
+  exports.HTMLElement.prototype.trigger = fireEvent;
+})(this);
