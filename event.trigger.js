@@ -31,7 +31,7 @@
     }
 
     return this.dispatchEvent(exports.CustomEvent.list[event]);
-  };
+  };;;
 
   exports.HTMLElement.prototype.trigger = fireEvent;
 })(this);
